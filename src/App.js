@@ -4,18 +4,35 @@ import './App.css'
 import BookShelf from './BookShelf'
 import SearchPage from './SearchPage'
 
+
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.updateShelf = this.updateShelf.bind(this)
+  }
 
   state = {
     books: [],
-    showSearchPage: false
+    showSearchPage: false,
+    shelf: ''
   }
 
   componentDidMount() {
   BooksAPI.getAll().then((books) => {
     this.setState({ books: books})
-    console.log(books)
+      console.log(books)
     })
+  }
+
+  updateShelf = (book,shelf) => {
+      console.log (book)
+      console.log (shelf)
+    this.setState({shelf: shelf})
+      if(book.shelf!== shelf){
+        book.shelf = shelf
+        BooksAPI.update(book, shelf).then((res)=> {this.setState(state => ({ books: state.books.filter(b => b.id !== book.id).concat([ book ])}))})
+      }
   }
 
   toggleSearchPage() {
@@ -40,6 +57,7 @@ class App extends Component {
                 key = {key.shelfid}
                 title={key.shelfname}
                 books={this.state.books.filter((book) => book.shelf === key.shelfid)}
+                onUpdateShelf={(book, shelf) => {this.updateShelf(book, shelf)}}
               />
             ))}
           <div className="open-search">
