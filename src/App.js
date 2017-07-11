@@ -10,33 +10,56 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.updateShelf = this.updateShelf.bind(this)
+    this.searchShelf = this.searchShelf.bind(this)
   }
 
   state = {
     books: [],
     showSearchPage: false,
-    shelf: ''
+    shelf: '',
+    matchedBooks: []
   }
 
   componentDidMount() {
-  BooksAPI.getAll().then((books) => {
-    this.setState({ books: books})
-      console.log(books)
+    BooksAPI
+    .getAll()
+    .then((books) => {
+      this.setState({
+        books
+      });
     })
   }
 
   updateShelf = (book,shelf) => {
-      console.log (book)
-      console.log (shelf)
     this.setState({shelf: shelf})
       if(book.shelf!== shelf){
         book.shelf = shelf
-        BooksAPI.update(book, shelf).then((res)=> {this.setState(state => ({ books: state.books.filter(b => b.id !== book.id).concat([ book ])}))})
+        BooksAPI
+          .update(book, shelf)
+          .then((res)=> {
+            this.setState(state => ({
+              books: state.books.filter(b => b.id !== book.id)
+              .concat([ book ])
+            }))
+          })
+      }
+  }
+
+  searchShelf = (query) => {
+    this.setState({query: query})
+      if(query.trim() !== '') {
+        BooksAPI.search(query).then(
+          res => {if (res && res.length) {this.setState({ matchedBooks: res })}
+          }
+        ).catch(function(e){
+            console.log('error',e)
+          });
       }
   }
 
   toggleSearchPage() {
     this.setState({showSearchPage: !this.state.showSearchPage})
+    this.setState({matchedBooks: []})
   }
 
   render() {
@@ -46,7 +69,14 @@ class App extends Component {
     return (
       <div className="app">
         {this.state.showSearchPage ? (
-          <SearchPage closePage={this.toggleSearchPage.bind(this)}/> )
+          <SearchPage
+            closePage={this.toggleSearchPage.bind(this)}
+            onUpdateShelf={(book, shelf) => {this.updateShelf(book, shelf)}}
+            books={this.state.matchedBooks}
+            shelf={this.state.matchedBooks}
+            onSearchShelf={(query)=>{this.searchShelf(query)}}
+           />
+        )
         :
         (<div className="list-books">
           <div className="list-books-title">
