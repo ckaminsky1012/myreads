@@ -1,5 +1,6 @@
 import React from 'react';
 import escapeRegExp from 'escape-string-regexp';
+import { Link } from 'react-router-dom'
 
 class SearchPage extends React.Component {
 
@@ -22,14 +23,15 @@ class SearchPage extends React.Component {
     		if(query){
 	        	let match = new RegExp (escapeRegExp(query),'i')
 	       			showingBooks= books.filter(book=>match.test(book.title)|| match.test(book.authors))
-	       		} else {
-  					showingBooks= books
-    	}
+	       	}
+			else {
+  				showingBooks = books
+    		}
 
 		return (
 			<div className="search-books">
 			    <div className="search-books-bar">
-			        <a className="close-search" onClick={this.props.closePage}>Close</a>
+			        <Link className="close-search" onClick={this.props.closePage} to="/">Close</Link>
 			            <div className="search-books-input-wrapper">
 			            	<input
 			            	type="text"

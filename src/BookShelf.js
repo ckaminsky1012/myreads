@@ -1,6 +1,7 @@
 import React from 'react';
 
 
+
 class BookShelf extends React.Component {
 
 	render() {
@@ -28,7 +29,7 @@ class BookShelf extends React.Component {
                             </div>
                           </div>
                           <div className="book-title">{book.title}</div>
-                          <div className="book-authors">{book.authors}</div>
+                          <div className="book-authors">{book.authors.join(' & ')}</div>
                         </div>
                       </li>
                       ))}

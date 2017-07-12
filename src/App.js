@@ -3,7 +3,7 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import BookShelf from './BookShelf'
 import SearchPage from './SearchPage'
-
+import { Link, Route } from 'react-router-dom'
 
 class App extends Component {
 
@@ -11,11 +11,11 @@ class App extends Component {
     super(props);
     this.updateShelf = this.updateShelf.bind(this)
     this.searchShelf = this.searchShelf.bind(this)
+    this.clearMatchedBooks = this.clearMatchedBooks.bind(this)
   }
 
   state = {
     books: [],
-    showSearchPage: false,
     shelf: '',
     matchedBooks: []
   }
@@ -57,8 +57,7 @@ class App extends Component {
       }
   }
 
-  toggleSearchPage() {
-    this.setState({showSearchPage: !this.state.showSearchPage})
+  clearMatchedBooks() {
     this.setState({matchedBooks: []})
   }
 
@@ -68,33 +67,36 @@ class App extends Component {
 
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
+
+        <Route exact path="/" render = {() => (
+          <div className="list-books">
+            <div className="list-books-title">
+              <h1>MyReads</h1>
+            </div>
+              {keys.map((key) => (
+                <BookShelf
+                  key = {key.shelfid}
+                  title={key.shelfname}
+                  books={this.state.books.filter((book) => book.shelf === key.shelfid)}
+                  onUpdateShelf={(book, shelf) => {this.updateShelf(book, shelf)}}
+                />
+              ))}
+            <div className="open-search">
+              <Link to="/search"> Add a book</Link>
+            </div>
+          </div>
+        )}/>
+
+        <Route path="/search" render= {() => (
           <SearchPage
-            closePage={this.toggleSearchPage.bind(this)}
             onUpdateShelf={(book, shelf) => {this.updateShelf(book, shelf)}}
             books={this.state.matchedBooks}
             shelf={this.state.matchedBooks}
             onSearchShelf={(query)=>{this.searchShelf(query)}}
+            closePage={this.clearMatchedBooks.bind(this)}
            />
-        )
-        :
-        (<div className="list-books">
-          <div className="list-books-title">
-            <h1>MyReads</h1>
-          </div>
-            {keys.map((key) => (
-              <BookShelf
-                key = {key.shelfid}
-                title={key.shelfname}
-                books={this.state.books.filter((book) => book.shelf === key.shelfid)}
-                onUpdateShelf={(book, shelf) => {this.updateShelf(book, shelf)}}
-              />
-            ))}
-          <div className="open-search">
-            <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-          </div>
-        </div>
-        )}
+        )}/>
+
       </div>
     );
   }
