@@ -1,6 +1,5 @@
 import React from 'react';
-
-
+import { Link } from 'react-router-dom'
 
 class BookShelf extends React.Component {
 
@@ -17,7 +16,10 @@ class BookShelf extends React.Component {
                 		<li key={book.id}>
                         <div className="book">
                           <div className="book-top">
-                            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}></div>
+	                        <Link to={`/book/${book.id}`}>
+	                        	<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks.thumbnail}")` }}>
+	                            </div>
+	                        </Link>
                             <div className="book-shelf-changer">
                             <select value={book.shelf} onChange={event =>onUpdateShelf(book, event.target.value)}>
                                 <option value="none" disabled>Move to...</option>

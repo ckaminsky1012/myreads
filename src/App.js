@@ -3,6 +3,7 @@ import * as BooksAPI from './BooksAPI'
 import './App.css'
 import BookShelf from './BookShelf'
 import SearchPage from './SearchPage'
+import Book from './Book'
 import { Link, Route } from 'react-router-dom'
 
 class App extends Component {
@@ -86,6 +87,8 @@ class App extends Component {
             </div>
           </div>
         )}/>
+
+        <Route path="/book/:bookID" component={Book} />
 
         <Route path="/search" render= {() => (
           <SearchPage
