@@ -166,9 +166,36 @@ body, .app {
 .book-cover {
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   background: #eee;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 .book-cover-title {
   padding: 20px 10px 0;
   text-align: center;
   font-size: 0.8em;
+}
+
+.book-cover-new {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  background: #eee;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  text-align: center;
+}
+
+.indv-book-title {
+  font-size: 2em;
+}
+
+.indv-book-subtitle{
+  font-size: 1.2em;
+}
+
+.indv-book-published-date {
+  color: #999;
+}
+
+.indv-book-authors {
+  font-size: .9em;
+  color: #999;
 }
