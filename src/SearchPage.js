@@ -22,7 +22,7 @@ class SearchPage extends React.Component {
 		let showingBooks
     		if(query){
 	        	let match = new RegExp (escapeRegExp(query),'i')
-	       			showingBooks= books.filter(book=>match.test(book.title)|| match.test(book.authors))
+	       			showingBooks= books.filter(book=>match.test(book.title) || match.test(book.authors))
 	       	}
 			else {
   				showingBooks = books
@@ -31,7 +31,8 @@ class SearchPage extends React.Component {
 		return (
 			<div className="search-books">
 			    <div className="search-books-bar">
-			        <Link className="close-search" onClick={this.props.closePage} to="/">Close</Link>
+			        <Link className="close-search" onClick={this.props.closePage} to="/">Close
+			        </Link>
 			            <div className="search-books-input-wrapper">
 			            	<input
 			            	type="text"
@@ -47,7 +48,7 @@ class SearchPage extends React.Component {
                    			<div className="book">
                     			<div className="book-top">
                     				<Link to={`/book/${book.id}`}>
-	                     				<div className="book-cover" style={{ width: 128, height: 193, backgroundImage:`url("${book.imageLinks.thumbnail}")` }}>
+	                     				<div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${book.imageLinks && book.imageLinks.smallThumbnail}")` }}>
 	                                	</div>
 	                                </Link>
                       				<div className="book-shelf-changer">
@@ -60,11 +61,12 @@ class SearchPage extends React.Component {
 		                            	</select>
                              		</div>
                            		</div>
-                          	<div className="book-title">{book.title}</div>
-                          	<div className="book-authors">{book.authors}</div>
+                          		<div className="book-title">{book.title} </div>
+                          		<div className="book-authors">{book.authors} </div>
                       		</div>
                    		</li>
-                    ))} </ol>
+                    ))}
+                    </ol>
 			    </div>
 			</div>
 		)

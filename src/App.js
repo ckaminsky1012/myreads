@@ -32,15 +32,16 @@ class App extends Component {
   }
 
   updateShelf = (book,shelf) => {
-    this.setState({shelf: shelf})
-      if(book.shelf!== shelf){
+    this.setState( { shelf: shelf } )
+      if(book.shelf !== shelf {
         book.shelf = shelf
         BooksAPI
           .update(book, shelf)
           .then((res)=> {
             this.setState(state => ({
-              books: state.books.filter(b => b.id !== book.id)
-              .concat([ book ])
+              books: state.books
+                .filter(b => b.id !== book.id)
+                .concat([ book ])
             }))
           })
       }
@@ -59,7 +60,7 @@ class App extends Component {
   }
 
   clearMatchedBooks() {
-    this.setState({matchedBooks: []})
+    this.setState({ matchedBooks: [] })
   }
 
   render() {
@@ -88,9 +89,9 @@ class App extends Component {
           </div>
         )}/>
 
-        <Route path="/book/:bookID" component={Book} />
+        <Route path="/book/:bookID" component={ Book } />
 
-        <Route path="/search" render= {() => (
+        <Route path="/search" render = { () => (
           <SearchPage
             onUpdateShelf={(book, shelf) => {this.updateShelf(book, shelf)}}
             books={this.state.matchedBooks}
