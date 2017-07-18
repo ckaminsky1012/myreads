@@ -9,7 +9,7 @@ import { Link, Route } from 'react-router-dom'
 class App extends Component {
 
   constructor(props) {
-    super(props);
+    super( props);
     this.updateShelf = this.updateShelf.bind(this)
     this.searchShelf = this.searchShelf.bind(this)
     this.clearMatchedBooks = this.clearMatchedBooks.bind(this)
@@ -33,7 +33,7 @@ class App extends Component {
 
   updateShelf = (book,shelf) => {
     this.setState( { shelf: shelf } )
-      if(book.shelf !== shelf {
+      if( book.shelf !== shelf ){
         book.shelf = shelf
         BooksAPI
           .update(book, shelf)
@@ -60,7 +60,7 @@ class App extends Component {
   }
 
   clearMatchedBooks() {
-    this.setState({ matchedBooks: [] })
+    this.setState({matchedBooks: []})
   }
 
   render() {
@@ -89,9 +89,9 @@ class App extends Component {
           </div>
         )}/>
 
-        <Route path="/book/:bookID" component={ Book } />
+        <Route path="/book/:bookID" component={Book} />
 
-        <Route path="/search" render = { () => (
+        <Route path="/search" render = {() => (
           <SearchPage
             onUpdateShelf={(book, shelf) => {this.updateShelf(book, shelf)}}
             books={this.state.matchedBooks}

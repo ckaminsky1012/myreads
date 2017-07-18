@@ -1,8 +1,17 @@
 import React from 'react';
 import escapeRegExp from 'escape-string-regexp';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 class SearchPage extends React.Component {
+
+	static PropTypes = {
+		books: PropTypes.array.isRequired,
+		onUpdateShelf: PropTypes.func.isRequired,
+		onSearchShelf: PropTypes.func.isRequired,
+		closePage: PropTypes.func.isRequired,
+		shelf:PropTypes.string.isRequired
+	}
 
 	state = {
 		query: ''
