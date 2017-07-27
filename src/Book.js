@@ -1,55 +1,50 @@
 import React from 'react';
-import * as BooksAPI from './BooksAPI'
-import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-class Book extends React.Component {
 
-  state = {
-    book: {}
-  }
+function Book(props) {
 
-  componentDidMount() {
-    BooksAPI
-    .get(this.props.match.params.bookID)
-    .then((book) => {
-      this.setState({
-        book
-      });
-    })
-  }
+    Book.propTypes={
+        book: PropTypes.object.isRequired,
+        onUpdateShelf: PropTypes.func.isRequired,
+        getBookShelf: PropTypes.func.isRequired
+    }
 
-  render() {
-
-    const { book } = this.state
-    console.log(this.state.book)
+   const {book, onUpdateShelf, getBookShelf} = props
 
     return (
-      <div className="app">
-        <Link className="close-search" to="/">Close</Link>
-        <div className="container" style={{width: 970}}>
-          <div className="row">
-            <div className="col-md-3">
-              <div className="book-cover-new" style={{ width: 181, height: 284,  backgroundImage: `url("${book.imageLinks && book.imageLinks.smallThumbnail}")` }}>
-              </div>
-            </div>
-            <div className="col-md-7">
-              <div className="indv-book-title">{book.title}</div>
-              <div className="indv-book-subtitle">{book.subtitle}</div>
-              <div className="indv-book-authors">By: {book.authors && book.authors.join(', ')}</div>
-              <div className="indv-book-details">
-              <br/>
-                <p> {book.description} </p>
-                <p> <b>Publisher:</b> {book.publisher} </p>
-                <p> <b>Published On:</b> {book.publishedDate} </p>
-                <p> <b>Page Count:</b> {book.pageCount} </p>
-                <p> <b>Category:</b> {book.categories} </p>
-              </div>
-            </div>
+      <div className="book">
+        <div className="book-top">
+          {book.imageLinks && (
+            <Link to={`/book/${book.id}`}>
+              <div
+                className="book-cover"
+                style={{ width: 128,
+                    height: 193,
+                    backgroundImage: `url(${book.imageLinks.thumbnail})` }}
+              />
+            </Link>
+          )}
+          <div className="book-shelf-changer">
+            <select
+              value={getBookShelf(book)}
+              selected
+              onChange={event => onUpdateShelf(book, event.target.value)}
+            >
+              <option value="none" disabled>Move to...</option>
+              <option value="currentlyReading" >Currently Reading</option>
+              <option value="wantToRead">Want to Read</option>
+              <option value="read">Read</option>
+              <option value="none">None</option>
+            </select>
           </div>
         </div>
+        <div className="book-title">{book.title}</div>
+        <div className="book-authors">{book.authors}</div>
       </div>
-    )
-  }
-}
+    )// end of return
+}// end of component
 
-export default Book;
+
+export default Book

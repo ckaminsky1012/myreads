@@ -6,11 +6,11 @@
     "react-scripts": "1.0.10"
   },
   "dependencies": {
+    "escape-string-regexp": "^1.0.5",
     "react": "^15.6.1",
+    "react-debounce-input": "^3.0.0",
     "react-dom": "^15.6.1",
-    "react-router-dom": "^4.1.1",
-    "escape-string-regexp": "^1.0.5"
-
+    "react-router-dom": "^4.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

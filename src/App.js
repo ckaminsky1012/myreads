@@ -1,19 +1,12 @@
 import React, { Component } from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
-import BookShelf from './BookShelf'
+import BookCase from './BookCase'
 import SearchPage from './SearchPage'
-import Book from './Book'
-import { Link, Route } from 'react-router-dom'
+import BookDetail from './BookDetail'
+import { Route } from 'react-router-dom'
 
 class App extends Component {
-
-  constructor(props) {
-    super( props);
-    this.updateShelf = this.updateShelf.bind(this)
-    this.searchShelf = this.searchShelf.bind(this)
-    this.clearMatchedBooks = this.clearMatchedBooks.bind(this)
-  }
 
   state = {
     books: [],
@@ -63,33 +56,27 @@ class App extends Component {
     this.setState({matchedBooks: []})
   }
 
-  render() {
+  getBookShelf = (book) => {
+    const existingBook = this.state.books.find(b => b.id === book.id)
+      if (existingBook) return existingBook.shelf
+    return book.shelf
+    }
 
-  const keys = [{"shelfid": "currentlyReading", "shelfname": "Currently Reading"}, {"shelfid":"wantToRead", "shelfname": "Want to Read"}, {"shelfid": "read", "shelfname": "Read"}]
+  render() {
 
     return (
       <div className="app">
 
         <Route exact path="/" render = {() => (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-              {keys.map((key) => (
-                <BookShelf
-                  key = {key.shelfid}
-                  title={key.shelfname}
-                  books={this.state.books.filter((book) => book.shelf === key.shelfid)}
-                  onUpdateShelf={(book, shelf) => {this.updateShelf(book, shelf)}}
-                />
-              ))}
-            <div className="open-search">
-              <Link to="/search"> Add a book</Link>
-            </div>
-          </div>
+          <BookCase
+            books={this.state.books}
+            onUpdateShelf={this.updateShelf}
+            shelf={this.state.shelf}
+            getBookShelf={this.getBookShelf}
+          />
         )}/>
 
-        <Route path="/book/:bookID" component={Book} />
+        <Route path="/book/:bookID" component={BookDetail} />
 
         <Route path="/search" render = {() => (
           <SearchPage
@@ -97,7 +84,8 @@ class App extends Component {
             books={this.state.matchedBooks}
             shelf={this.state.matchedBooks}
             onSearchShelf={(query)=>{this.searchShelf(query)}}
-            closePage={this.clearMatchedBooks.bind(this)}
+            closePage={this.clearMatchedBooks}
+            getBookShelf={this.getBookShelf}
            />
         )}/>
 

@@ -1,4 +1,4 @@
-# Project: MyReads - [Corey Kaminsky]
+# Project: MyReads
 
 # Description
 
@@ -20,7 +20,7 @@ APP.js
 └───SearchPage.js
 |
 │
-└───  Book.js
+└───Book.js
 
 ```
 
